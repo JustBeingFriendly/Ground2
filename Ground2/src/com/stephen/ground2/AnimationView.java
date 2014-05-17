@@ -38,7 +38,7 @@ public class AnimationView extends SurfaceView implements Runnable, SurfaceHolde
 		mars = BitmapFactory.decodeResource(getResources(), R.drawable.mars);
 		marsShade = (new BitmapShader(mars, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT));
 		marsBackground.setShader(marsShade);
-		
+		FeatureArray = new int[5];
 		getHolder().addCallback(this);
 		
 
@@ -49,7 +49,7 @@ public class AnimationView extends SurfaceView implements Runnable, SurfaceHolde
 		mars = BitmapFactory.decodeResource(getResources(), R.drawable.mars);
 		marsShade = (new BitmapShader(mars, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT));
 		marsBackground.setShader(marsShade);
-		
+		FeatureArray = new int[5];
 		getHolder().addCallback(this);
 		
 	}
@@ -133,14 +133,29 @@ public class AnimationView extends SurfaceView implements Runnable, SurfaceHolde
 	}
 	
 	private void PsuedoRandomSort(){
-		FeatureArray = new int[5];
+		
 		
 		boolean ChoosingNumbers = true;
+		boolean zeroAlreadyExists = false;
+		
 		
 		while(ChoosingNumbers){			
 			for(int i = 0; i < FeatureArray.length; i++){
-				FeatureArray[i] = getRandomNumber();
+				//Random selection of number between 0 and 6, then adds this number to the array
+				FeatureArray[i]  = random.nextInt(6);
+				
+				//Checks if 0 has been added to any position of the array
 				if(FeatureArray[i] == 0){
+					//Overwrites previous number with random number that isn't 0 with-in the range
+					if(zeroAlreadyExists){
+						FeatureArray[i]  = random.nextInt(5) + 1; 						
+					}
+					else{
+						zeroAlreadyExists = true;
+					}
+					//Checks if the last array position contains the value 0
+					//If 0 is in any other array position the while loop will end 
+					//0 is assigned the landing pad, and on smaller resolutions/screen sizes this isn't full visible
 					if(FeatureArray[4] == 0){
 						ChoosingNumbers = true;
 					}
@@ -152,10 +167,11 @@ public class AnimationView extends SurfaceView implements Runnable, SurfaceHolde
 		}		
 	}
 	
+/*	//Chooses a number pseudo-randomly between 0 and 6
 	private int getRandomNumber(){
 		int randomInt = random.nextInt(6);		 
 		return randomInt;
-	}
+	}*/
 	
 
 	
